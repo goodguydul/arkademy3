@@ -41,11 +41,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img height="100%" src="logo.png" alt="Arkademy-logo"></a>
+          <a class="navbar-brand" href=""><img height="100%" src="logo.png" alt="Arkademy-logo"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.php"><b>ARKADEMI BOOTCAMP</b></a></li>
+            <li><a href=""><b>ARKADEMI BOOTCAMP</b></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -54,12 +54,12 @@
 
     <div class="container">
       <?php
-        include('views/crud/index.php');
+        include('views/index.php');
       ?>
     </div>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/bootbox/bootbox.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- script ajax untuk create -->
     <script type="text/javascript">
@@ -72,14 +72,14 @@
             url: "process/create.php",
             data: data,
             success: function(message) {
-              callBootbox(message,"<i class='glyphicon glyphicon-ok'></i> Sukses");
+              callSwal(message,"Sukses","success");
               $('#createModal').modal('hide');
               setTimeout(function(){
-                   window.location.href='index.php?page=crud/index';
+                   window.location.href='index.php';
               }, 3000);
             },
             error: function(message) {
-              callBootbox(message,"<i class='glyphicon glyphicon glyphicon-remove'></i> Error");
+              callSwal(message,"Error","error");
 
             }
           });
@@ -103,16 +103,16 @@
               url: "process/edit.php",
               data: data,
               success: function(message) {
-                callBootbox(message,"<i class='glyphicon glyphicon-ok'></i> Sukses");
+                callSwal(message,"Sukses","success");
                 $('#editModal'+dataId).modal('hide');
 
                 setTimeout(function(){
-                     window.location.href='index.php?page=crud/index';
+                     window.location.href='index.php';
                 }, 2000);
                 
               },
               error: function(message) {
-                callBootbox(message,"<i class='glyphicon glyphicon glyphicon-remove'></i> Error");
+                callSwal(message,"Error","error");
               }
             });
           });
@@ -131,52 +131,39 @@
             var pid     = $(this).attr('data-id');
             var parent  = $(this).parent("td").parent("tr");
             var user    = $(this).closest("tr").find('td:eq(0)').text();
-            bootbox.dialog({
+            swal({
               size: "small",
-              message: "Are you sure you want to Delete ?",
-              title: "<i class='glyphicon glyphicon-trash'></i> DELETE DATA",
-              buttons: {
-                success: {
-                  label: "No",
-                  className: "btn-success",
-                  callback: function() {
-                     $('.bootbox').modal('hide');
-                  }
-                },
-                danger: {
-                  label: "Delete",
-                  className: "btn-danger",
-                  callback: function() {
-                       
-                      $.post('process/delete.php', { 'delete':pid })
-                      .done(function(response){
-                          bootbox.alert({
-                              title   : "<i class='glyphicon glyphicon-ok'></i> Sukses",
-                              message : "<img class='img' height='120px' src='checklist.png'><br><br><p class='center' ><b>Data "+user+" Berhasil Dihapus</b></p>",
-                              size    : "medium",
-                            }
-                          );
-                          parent.fadeOut('slow');
-                      })
-                      .fail(function(){
-                          bootbox.alert('Something Went Wrog ....');
-                      })
-                                           
-                  }
-                }
-              }
-            });                       
+              text: "Are you sure you want to Delete ?",
+              title: "Delete Data",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true
+            }).then((willDelete) => {
+            if (willDelete) {
+                $.post('process/delete.php', { 'delete':pid })
+                .done(function(response){
+                    parent.fadeOut('slow');
+                }).fail(function(){
+                  swal('Something Went Wrog ....');
+                })
+                swal("Data "+user+" Berhasil Dihapus", {
+                icon: "success",
+              });
+            } else {
+              swal("Your imaginary file is safe!");
+            }
+          });                     
         });        
       });
     </script>
 
     <!-- script untuk memanggil bootbox -->
     <script type="text/javascript">
-      function callBootbox(msg,ttl){
-          bootbox.alert({
+      function callSwal(msg,ttl,ic){
+          swal({
             title   : ttl,
-            message : msg,
-            size    : "medium"
+            text    : msg,
+            icon    : ic
           });
       }
     </script>

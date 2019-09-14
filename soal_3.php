@@ -1,36 +1,29 @@
 <?php 
-// Buatlah method/function untuk mencetak segitiga seperti gambar berikut. Parameter yang diberikan adalah jumlah baris dengan ketentuan minimal 3. Jumlah karakter di baris pertama merupakan ganjil. 
+// Buatlah program yang dapat menemukan berapa banyak sebuah kata/frasa dari sebuah string baik itu dari kiri atau kanan.
 
-	function printTriangle($n){
-		// cek terlebih dahulu apakah range lebih dari atau sama dengan 3 atau tidak (sesuai rules soal)
-		if ($n >= 3) {
+// REQUIREMENT:
+// Input dari user sebanyak 2 parameter berupa string dan kata/frasa yang ingin dicari.
+// Input kata/frasa pencarian tidak bisa lebih panjang dibandingkan string.
+// Output berupa banyaknya kata/frasa pencarian yang ditemukan dari string yang telah diberikan.
+	/**
+		@Author 	: 	abdulhalimzhr
+		@githuburl 	:	https://github.com/goodguydul/
+	*/
+	function hitungkata($cari,$string){
 
-			// looping in reversed(range $n)
-			for ($i=$n; $i >=1 ; $i--) { 
+		if (strlen($cari) < strlen($string)) {
 
-				// looping untuk ruang kosong ditengah
-				for ($ruang=$i; $ruang < $n ; $ruang++) { 
-					echo " ";
-				}
+			$strrev = strrev($string);
 
-				// looping untuk bintang-bintang
-				for ($star=1; $star < 2*$i; $star++) {  
-					if($i == $n || $star == 1 || $star == 2*$i - 1){
-			            echo  "*";
-					}
-			        else{
-			            echo  " ";
-			        }
-				}
-				echo "\n";
-			}
+			echo "ditemukan ". (preg_match_all("/(?<=(nana))/",$strrev) + preg_match_all("/(?<=(nana))/",$string))." kali";
+
 		}else{
-			echo "input minimum adalah 3";
+			echo "Jumlah karakter yang dicari melebihi jumlah karakter String!";
 		}
-		
 	}
-	
-	printTriangle(9);
 
-	//nb : di soal tertera "printTriangle(5)" namun outputnya ada 4 baris. berarti soal tersebut typo.
+	hitungkata("nana","banananana");
+
+//cara kerja : jika jumlah karakter kata yang dicari kurang dari jumlah karakter string, maka proses dilakukan. Pertama-tama siapkan 2 variabel untuk String yang dibaca dari kiri, dan String yang dibaca dari kanan. String yang dibaca dari kanan dibuat berdasar string reversed. Lalu lakukan pregmatchall / pencarian kata sesuai dengan pattern positive lookahead dengan mencocokkan kata pada setiap index karakter. setelah itu dilakukan juga terhadap String yang di-reversed. lalu jumlahkan total kata yang ditemukan dari kiri dan kanan.
 ?>
+

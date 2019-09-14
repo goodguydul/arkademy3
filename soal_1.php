@@ -12,7 +12,10 @@
 //     Return value harus berformat JSON dan sesuai ketentuan di atas.
 // Pada readme sebutkan kegunaan JSON pada REST API.
 // Berikut adalah contoh dari JSON format: https://api.bukalapak.com/v2/products/f3vi.json
-
+	/**
+		@Author 	: 	abdulhalimzhr
+		@githuburl 	:	https://github.com/goodguydul/
+	*/
 	function getBiodata(){
 		$data =  [	'name' 		=> "Abdul Halim",
 					'age'		=> 22,

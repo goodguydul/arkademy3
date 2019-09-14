@@ -1,6 +1,5 @@
 		<form method="POST" class="form-edit-data<?= $obj->id ?>" enctype="multipart/form-data" >
-			<input type="text" value="<?= $obj->id ?>" name="id" hidden>
-			
+			<input type="text" value="<?= $obj->id ?>" name="id" hidden>			
 			<div class="form-group">
 				<label>Nama</label>
 				<input type="text" class="form-control" name="name" required="true" value="<?= $obj->name?>">
